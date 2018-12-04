@@ -3,6 +3,7 @@ package org.nico.defender.annotation;
 import org.nico.defender.Defender;
 import org.nico.defender.advice.DefenderAdvice;
 import org.nico.defender.utils.BeanUtils;
+import org.nico.defender.utils.SpringUtils;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
@@ -20,6 +21,7 @@ public class EnableDefenderRegister implements ImportBeanDefinitionRegistrar, Re
 	public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
 		Defender.getInstance().setRegistry(registry);
 		BeanUtils.registerBean(DefenderAdvice.class, registry);
+		BeanUtils.registerBean(SpringUtils.class, registry);
 	}
 
 	/**

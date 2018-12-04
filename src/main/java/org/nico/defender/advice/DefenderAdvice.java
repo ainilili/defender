@@ -1,7 +1,6 @@
 package org.nico.defender.advice;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,9 +14,6 @@ import org.nico.defender.Guarder;
 import org.nico.defender.annotation.Access;
 import org.nico.defender.utils.AspectUtils;
 import org.nico.defender.utils.ReflectUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -27,8 +23,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Component
 public class DefenderAdvice {
 	
-	private final static Logger LOGGER = LoggerFactory.getLogger(DefenderAdvice.class);
-
 	@Pointcut("@annotation(access)")
 	public void defend(Access access){}
 	

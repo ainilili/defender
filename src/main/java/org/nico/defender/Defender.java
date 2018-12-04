@@ -8,10 +8,9 @@ import org.nico.defender.cache.Cache;
 import org.nico.defender.cache.GuarderCache;
 import org.nico.defender.guarder.AbstractVerify;
 import org.nico.defender.utils.BeanUtils;
+import org.nico.defender.utils.SpringUtils;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.context.ContextLoader;
-import org.springframework.web.context.WebApplicationContext;
 
 public class Defender {
 	
@@ -96,11 +95,8 @@ public class Defender {
 		if(! hasInit) {
 			hasInit = ! hasInit;
 			if(! CollectionUtils.isEmpty(guarders)) {
-				
 				for(Guarder guarder: guarders) {
-					Object obj = BeanUtils.getBean(guarder.getBeanName());
-					
-					guarder.setVerify((AbstractVerify) registry.getBeanDefinition(guarder.getBeanName()).getSource());
+					guarder.setVerify((AbstractVerify) SpringUtils.getBean(guarder.getBeanName()));
 				}
 			}
 		}
