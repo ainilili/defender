@@ -28,37 +28,34 @@ public class DefenderAdvice {
 	
 	@Around(value="defend(access)")
 	public Object around(ProceedingJoinPoint point, Access access) throws Throwable {
+		Defender defender = Defender.getInstance();
 		
-		Defender.getInstance().initGuarder();
+		defender.initialize();
 		
 		boolean pass = true;
 		
+		List<Guarder> guarders = null;
+		Guarder prohibitor = null;
+		
 		Class<?> targetClass = AspectUtils.getClass(point);
 		if(ReflectUtils.hasAnnotation(targetClass, Access.class)) {
-			List<Guarder> guarders = Defender.getInstance().getGuarders(targetClass.getPackage().getName());
-			if(! CollectionUtils.isEmpty(guarders)) {
-				for(Guarder guarder: guarders) {
-					boolean verifyResult = guarder.getVerify().action(getRequest(), point);
-					if(! verifyResult) {
-						pass = false;
-						break;
-					}
-				}
-			}
+			guarders = defender.getGuarders(targetClass.getPackage().getName());
 		}else {
 			Method targetMethod = AspectUtils.getMethod(point);
 			if(targetMethod != null) {
 				if(ReflectUtils.hasAnnotation(targetMethod, Access.class)) {
-					List<Guarder> guarders = Defender.getInstance().getGuarders(targetClass.getPackage().getName());
-					if(! CollectionUtils.isEmpty(guarders)) {
-						for(Guarder guarder: guarders) {
-							boolean verifyResult = guarder.getVerify().action(getRequest(), point);
-							if(! verifyResult) {
-								pass = false;
-								break;
-							}
-						}
-					}
+					guarders = defender.getGuarders(targetClass.getPackage().getName());
+				}
+			}
+		}
+		
+		if(! CollectionUtils.isEmpty(guarders)) {
+			for(Guarder guarder: guarders) {
+				boolean verifyResult = guarder.getVerify().action(getRequest(), point);
+				if(! verifyResult) {
+					pass = false;
+					prohibitor = guarder;
+					break;
 				}
 			}
 		}
@@ -66,7 +63,7 @@ public class DefenderAdvice {
 		if(pass) {
 			return point.proceed();
 		}else {
-			return Defender.getInstance().getNotPass();
+			return prohibitor.getError();
 		}
 		
 	}

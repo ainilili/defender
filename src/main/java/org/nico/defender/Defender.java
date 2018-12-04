@@ -2,17 +2,20 @@ package org.nico.defender;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 import org.nico.defender.cache.Cache;
 import org.nico.defender.cache.GuarderCache;
 import org.nico.defender.guarder.AbstractVerify;
 import org.nico.defender.utils.BeanUtils;
 import org.nico.defender.utils.SpringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.util.CollectionUtils;
 
 public class Defender {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(Defender.class);
 	
 	private static Defender instance;
 	
@@ -20,9 +23,7 @@ public class Defender {
 	
 	private Cache<String, List<Guarder>> cache;
 	
-	private Object notPass;
-	
-	private boolean hasInit;
+	private boolean initialized;
 	
 	private BeanDefinitionRegistry registry;
 	
@@ -42,10 +43,19 @@ public class Defender {
 		return instance;
 	}
 	
-	public Defender registryGuarder(Guarder guarder) {
-		String beanName = BeanUtils.registerBean(guarder.getVerify().getClass(), registry);
-		guarder.setBeanName(beanName);
+	public Defender registry(Guarder guarder) {
 		guarders.add(guarder);
+		return this;
+	}
+	
+	public Defender ready(){
+		if(! CollectionUtils.isEmpty(guarders)){
+			guarders.forEach(g -> {
+				String beanName = BeanUtils.registerBean(g.getVerify().getClass(), registry);
+				g.name(beanName);
+			});
+			LOGGER.debug("Defender ready to defending !!");
+		}
 		return this;
 	}
 	
@@ -66,37 +76,16 @@ public class Defender {
 		}
 	}
 	
-	public Defender noNotPass(Supplier<Object> callback) {
-		notPass = callback.get();
-		return this;
-	}
-
-	public BeanDefinitionRegistry getRegistry() {
-		return registry;
-	}
-
 	public void setRegistry(BeanDefinitionRegistry registry) {
 		this.registry = registry;
 	}
-
-	public Object getNotPass() {
-		return notPass;
-	}
-
-	public List<Guarder> getGuarders() {
-		return guarders;
-	}
-
-	public void setGuarders(List<Guarder> guarders) {
-		this.guarders = guarders;
-	}
 	
-	public void initGuarder() {
-		if(! hasInit) {
-			hasInit = ! hasInit;
+	public void initialize() {
+		if(! initialized) {
+			initialized = ! initialized;
 			if(! CollectionUtils.isEmpty(guarders)) {
 				for(Guarder guarder: guarders) {
-					guarder.setVerify((AbstractVerify) SpringUtils.getBean(guarder.getBeanName()));
+					guarder.verify((AbstractVerify) SpringUtils.getBean(guarder.getName()));
 				}
 			}
 		}
