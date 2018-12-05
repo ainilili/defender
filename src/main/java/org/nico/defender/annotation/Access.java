@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * 
  * @author nico
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface Access {

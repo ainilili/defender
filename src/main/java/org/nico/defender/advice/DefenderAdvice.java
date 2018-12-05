@@ -1,8 +1,5 @@
 package org.nico.defender.advice;
 
-import java.lang.reflect.Method;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -10,66 +7,36 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.nico.defender.Defender;
-import org.nico.defender.annotation.Access;
-import org.nico.defender.entity.Caller;
-import org.nico.defender.entity.Guarder;
-import org.nico.defender.utils.AspectUtils;
-import org.nico.defender.utils.ReflectUtils;
+import org.nico.defender.guarder.Caller;
+import org.nico.defender.guarder.Guarder;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Aspect
 @Component
+@ConditionalOnBean({Defender.class})
 public class DefenderAdvice {
 	
-	@Pointcut("@annotation(access)")
-	public void defend(Access access){}
+	@Pointcut("")
+	public void defend(){}
 	
-	@Around(value="defend(access)")
-	public Object around(ProceedingJoinPoint point, Access access) throws Throwable {
+	@Around(value="defend()")
+	public Object around(ProceedingJoinPoint point) throws Throwable {
 		Defender defender = Defender.getInstance();
 		
-		defender.initialize();
+		Caller caller = new Caller(getRequest(), point);
+		Guarder intercepter = defender.intercept(caller);
 		
-		boolean pass = true;
-		
-		List<Guarder> guarders = null;
-		Guarder prohibitor = null;
-		
-		Class<?> targetClass = AspectUtils.getClass(point);
-		if(ReflectUtils.hasAnnotation(targetClass, Access.class)) {
-			guarders = defender.getGuarders(targetClass.getPackage().getName());
-		}else {
-			Method targetMethod = AspectUtils.getMethod(point);
-			if(targetMethod != null) {
-				if(ReflectUtils.hasAnnotation(targetMethod, Access.class)) {
-					guarders = defender.getGuarders(targetClass.getPackage().getName());
-				}
-			}
-		}
-		
-		if(! CollectionUtils.isEmpty(guarders)) {
-			for(Guarder guarder: guarders) {
-				boolean verifyResult = guarder.getPreventer().detection(new Caller(getRequest(), point, access));
-				if(! verifyResult) {
-					pass = false;
-					prohibitor = guarder;
-					break;
-				}
-			}
-		}
-		
-		if(pass) {
+		if(intercepter == null) {
 			return point.proceed();
 		}else {
-			return prohibitor.getError();
+			return intercepter.errorMessage();
 		}
-		
 	}
 	
-	public HttpServletRequest getRequest() {
+	private HttpServletRequest getRequest() {
 		ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		return requestAttributes.getRequest();
 	}

@@ -19,4 +19,5 @@ import org.springframework.context.annotation.Import;
 @Import(EnableDefenderRegister.class)
 public @interface EnableDefender {
 
+	String value();
 }

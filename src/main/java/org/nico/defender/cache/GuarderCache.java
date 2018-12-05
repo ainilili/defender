@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.nico.defender.entity.Guarder;
+import org.nico.defender.guarder.Guarder;
 
 public class GuarderCache implements Cache<String, List<Guarder>>{
 

@@ -1,4 +1,4 @@
-package org.nico.defender.entity;
+package org.nico.defender.guarder;
 
 import java.lang.reflect.Method;
 
@@ -16,19 +16,25 @@ public class Caller {
 	
 	private Access access;
 	
-	public Caller(HttpServletRequest request, ProceedingJoinPoint point, Access access) {
+	private Class<?> targetClass;
+	
+	private Method targetMethod;
+	
+	public Caller(HttpServletRequest request, ProceedingJoinPoint point) {
 		super();
 		this.request = request;
 		this.point = point;
-		this.access = access;
+		this.targetClass = AspectUtils.getClass(point);
+		this.targetMethod = AspectUtils.getMethod(point);
+		this.access = this.targetMethod.getDeclaredAnnotation(Access.class);
 	}
 
 	public Method getTargetMethod() {
-		return AspectUtils.getMethod(point);
+		return targetMethod;
 	}
 	
 	public Class<?> getTargetClass(){
-		return AspectUtils.getClass(point);
+		return targetClass;
 	}
 
 	public HttpServletRequest getRequest() {
