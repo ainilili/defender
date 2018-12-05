@@ -93,7 +93,7 @@ public class Guarder {
 		if(! CollectionUtils.isEmpty(patterns)) {
 			for(String pattern: patterns) {
 				AbstractMatcher matcher = type.matcher();
-				matches = matcher.match(pattern, matcher.parseLocation(caller));
+				matches = matcher.match(caller, pattern);
 				if(matches) {
 					break;
 				}

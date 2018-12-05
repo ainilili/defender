@@ -38,6 +38,9 @@ public class EnableDefenderRegister implements ImportBeanDefinitionRegistrar, Re
 	
 	public String getExpression(AnnotationMetadata importingClassMetadata) {
 		String expression = (String) importingClassMetadata.getAnnotationAttributes(EnableDefender.class.getName()).get("value");
+		if(expression.startsWith("execution")) {
+			return expression;
+		}
 		return "execution(" + expression + ")";
 	}
 	

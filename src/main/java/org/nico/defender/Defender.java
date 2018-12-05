@@ -75,7 +75,7 @@ public class Defender {
 				Collections.sort(guarders, new Comparator<Guarder>() {
 					@Override
 					public int compare(Guarder pre, Guarder next) {
-						return pre.getSort() > next.getSort() ? -1 : 0;
+						return pre.getSort() > next.getSort() ? 1 : -1;
 					}
 				});
 			}
