@@ -6,7 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.nico.defender.enums.AccessLevel;
 import org.springframework.context.annotation.Import;
 
 /**

@@ -6,8 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.nico.defender.enums.AccessLevel;
-
 /**
  * The identifying what condition your api needed! 
  * 
@@ -19,16 +17,16 @@ import org.nico.defender.enums.AccessLevel;
 public @interface Access {
 
 	/**
-	 * {@link AccessLevel}
+	 * {@link Ranker}
 	 * 
 	 * @return
 	 */
-	AccessLevel value();
+	String value();
 	
 	/**
 	 * Description
 	 * 
 	 * @return
 	 */
-	String description() default "niconico";
+	String description() default "";
 }

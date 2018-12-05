@@ -1,8 +1,8 @@
-package org.nico.defender;
+package org.nico.defender.entity;
 
 import java.util.function.Supplier;
 
-import org.nico.defender.guarder.AbstractVerify;
+import org.nico.defender.guarder.AbstractPreventer;
 
 public class Guarder {
 
@@ -10,7 +10,7 @@ public class Guarder {
 	
 	private String pattern;
 	
-	private AbstractVerify verify; 
+	private AbstractPreventer preventer; 
 	
 	private Object error;
 	
@@ -30,8 +30,8 @@ public class Guarder {
 		return this;
 	}
 	
-	public Guarder verify(AbstractVerify verify){
-		this.verify = verify;
+	public Guarder preventer(AbstractPreventer preventer){
+		this.preventer = preventer;
 		return this;
 	}
 	
@@ -57,10 +57,10 @@ public class Guarder {
 		return pattern;
 	}
 
-	public AbstractVerify getVerify() {
-		return verify;
+	public AbstractPreventer getPreventer() {
+		return preventer;
 	}
-	
+
 	public boolean isMatches(String location){
 		return location.startsWith(pattern);
 	}

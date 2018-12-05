@@ -10,8 +10,9 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.nico.defender.Defender;
-import org.nico.defender.Guarder;
 import org.nico.defender.annotation.Access;
+import org.nico.defender.entity.Caller;
+import org.nico.defender.entity.Guarder;
 import org.nico.defender.utils.AspectUtils;
 import org.nico.defender.utils.ReflectUtils;
 import org.springframework.stereotype.Component;
@@ -51,7 +52,7 @@ public class DefenderAdvice {
 		
 		if(! CollectionUtils.isEmpty(guarders)) {
 			for(Guarder guarder: guarders) {
-				boolean verifyResult = guarder.getVerify().action(getRequest(), point);
+				boolean verifyResult = guarder.getPreventer().detection(new Caller(getRequest(), point, access));
 				if(! verifyResult) {
 					pass = false;
 					prohibitor = guarder;

@@ -5,7 +5,8 @@ import java.util.List;
 
 import org.nico.defender.cache.Cache;
 import org.nico.defender.cache.GuarderCache;
-import org.nico.defender.guarder.AbstractVerify;
+import org.nico.defender.entity.Guarder;
+import org.nico.defender.guarder.AbstractPreventer;
 import org.nico.defender.utils.BeanUtils;
 import org.nico.defender.utils.SpringUtils;
 import org.slf4j.Logger;
@@ -51,7 +52,7 @@ public class Defender {
 	public Defender ready(){
 		if(! CollectionUtils.isEmpty(guarders)){
 			guarders.forEach(g -> {
-				String beanName = BeanUtils.registerBean(g.getVerify().getClass(), registry);
+				String beanName = BeanUtils.registerBean(g.getPreventer().getClass(), registry);
 				g.name(beanName);
 			});
 			LOGGER.debug("Defender ready to defending !!");
@@ -85,7 +86,7 @@ public class Defender {
 			initialized = ! initialized;
 			if(! CollectionUtils.isEmpty(guarders)) {
 				for(Guarder guarder: guarders) {
-					guarder.verify((AbstractVerify) SpringUtils.getBean(guarder.getName()));
+					guarder.preventer((AbstractPreventer) SpringUtils.getBean(guarder.getName()));
 				}
 			}
 		}
