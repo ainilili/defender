@@ -105,4 +105,10 @@ public class Guarder {
 	public GuarderType getType() {
 		return type;
 	}
+
+	@Override
+	public String toString() {
+		return "Guarder [name=" + name + ", patterns=" + patterns + ", type=" + type + ", sort=" + sort + "]";
+	}
+
 }

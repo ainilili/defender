@@ -51,6 +51,7 @@ public class Defender {
 			if(! CollectionUtils.isEmpty(guarders)){
 				guarders.forEach(guarder -> {
 					guarder.name(BeanUtils.registerBean(guarder.getPreventer().getClass(), registry));
+					LOGGER.debug("Register guarder " + guarder);
 				});
 			}
 			LOGGER.debug("Defender ready to defending.");
