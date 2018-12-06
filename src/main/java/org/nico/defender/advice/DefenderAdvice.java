@@ -39,8 +39,7 @@ public class DefenderAdvice {
 		boolean access = intercepter == null;
 		
 		long end = System.nanoTime();
-		
-		LOGGER.debug("Defense takes " + (end - start)/1000 + "μs, result " + (access ? "[SUCCESS]" : "[FAILURE]"));
+		LOGGER.debug("Defended " + caller.getTargetMethod().getName() + " takes " + (end - start)/1000 + "μs, result " + (access ? "[SUCCESS]" : "[FAILURE]"));
 		if(access) {
 			return point.proceed();
 		}else {

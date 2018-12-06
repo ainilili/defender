@@ -2,7 +2,6 @@ package org.nico.defender;
 
 import java.util.List;
 
-import org.nico.defender.cache.Cache;
 import org.nico.defender.guarder.Caller;
 import org.nico.defender.guarder.Guarder;
 import org.springframework.util.CollectionUtils;
