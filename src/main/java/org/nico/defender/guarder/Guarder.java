@@ -54,7 +54,7 @@ public class Guarder {
 		return this;
 	}
 	
-	public boolean detection(Caller caller) {
+	public Result detection(Caller caller) {
 		return this.preventer.detection(caller);
 	}
 	

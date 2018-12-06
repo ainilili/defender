@@ -8,7 +8,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.nico.defender.Defender;
 import org.nico.defender.guarder.Caller;
-import org.nico.defender.guarder.Guarder;
+import org.nico.defender.guarder.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -35,15 +35,15 @@ public class DefenderAdvice {
 		long start = System.nanoTime();
 		
 		//Interception
-		Guarder intercepter = defender.intercept(caller);
-		boolean access = intercepter == null;
+		Result intercepter = defender.intercept(caller);
+		boolean access = intercepter.isAccess();
 		
 		long end = System.nanoTime();
-		LOGGER.debug("Defended " + caller.getTargetMethod().getName() + " takes " + (end - start)/1000 + "μs, result " + (access ? "[SUCCESS]" : "[FAILURE]"));
+		LOGGER.debug("Defended " + caller.getTargetMethod().getName() + " takes " + (end - start)/1000000 + "MS, result " + (access ? "[SUCCESS]" : "[FAILURE]"));
 		if(access) {
 			return point.proceed();
 		}else {
-			return intercepter.errorMessage();
+			return intercepter.getError();
 		}
 	}
 	

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.nico.defender.guarder.Caller;
 import org.nico.defender.guarder.Guarder;
+import org.nico.defender.guarder.Result;
 import org.springframework.util.CollectionUtils;
 
 public class DefenderIntercepter{
@@ -14,19 +15,18 @@ public class DefenderIntercepter{
 		this.guarders = guarders;
 	}
 
-	public Guarder intercept(Caller caller) {
-		Guarder intercepter = null;
+	public Result intercept(Caller caller) {
+		Result intercepter = null;
 		if(! CollectionUtils.isEmpty(guarders)) {
 			for(Guarder guarder: guarders) {
 				if(guarder.isMatches(caller)) {
-					boolean access = guarder.detection(caller);
-					if(! access) {
-						intercepter = guarder;
+					intercepter = guarder.detection(caller);
+					if(! intercepter.isAccess()) {
 						break;
 					}
 				}
 			}
 		}
-		return intercepter;
+		return intercepter == null ? Result.pass() : intercepter;
 	}
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import org.nico.defender.guarder.AbstractPreventer;
 import org.nico.defender.guarder.Caller;
 import org.nico.defender.guarder.Guarder;
+import org.nico.defender.guarder.Result;
 import org.nico.defender.utils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,7 +87,7 @@ public class Defender {
 		intercepter = new DefenderIntercepter(guarders);
 	}
 
-	public Guarder intercept(Caller caller) {
+	public Result intercept(Caller caller) {
 		return intercepter.intercept(caller);
 	}
 
