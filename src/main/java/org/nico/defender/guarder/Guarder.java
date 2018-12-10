@@ -19,7 +19,7 @@ public class Guarder {
 	
 	private Object error;
 	
-	private int sort;
+	private int order;
 	
 	private Guarder() {
 		this.patterns = new ArrayList<>();
@@ -44,8 +44,8 @@ public class Guarder {
 		return this;
 	}
 	
-	public Guarder sort(int sort){
-		this.sort = sort;
+	public Guarder order(int order){
+		this.order = order;
 		return this;
 	}
 	
@@ -68,8 +68,8 @@ public class Guarder {
 		return this;
 	}
 
-	public int getSort() {
-		return sort;
+	public int getOrder() {
+		return order;
 	}
 
 	public Object errorMessage() {
@@ -108,7 +108,7 @@ public class Guarder {
 
 	@Override
 	public String toString() {
-		return "Guarder [name=" + name + ", patterns=" + patterns + ", type=" + type + ", sort=" + sort + "]";
+		return "Guarder [name=" + name + ", patterns=" + patterns + ", type=" + type + ", order=" + order + "]";
 	}
 
 }
