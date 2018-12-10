@@ -1,7 +1,7 @@
 # Defender
 Defender is a lightweight, flexible, and highly available permission framework that fully embraces spring-boot.If we need to make it easier to add permission management to the service on a daily basis, Defender is the Defender!
 
-![](https://user-gold-cdn.xitu.io/2018/12/10/16796c88864925b7?w=871&h=278&f=png&s=13234)
+![](https://github.com/ainilili/defender/blob/master/PROCESS.jpg)
 
 It eliminates the need to repeatedly write custom annotations and facets, and allows you to flexibly specify different patterns of defense networks by simply calling a simple API.
 
