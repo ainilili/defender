@@ -25,6 +25,7 @@ public class ReflectUtils {
 		return method.getDeclaredAnnotation(annotationClass);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static void modifyAnnotationProperties(Annotation annotation, String name, Object obj) {
 		InvocationHandler invocationHandler = Proxy.getInvocationHandler(annotation);
 		Field field = null;
