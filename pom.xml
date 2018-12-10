@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.smallnico</groupId>
   <artifactId>defender</artifactId>
-  <version>1.0</version>
+  <version>1.1.0</version>
   <name>defender</name>
   <description>Role and permission management framework based on Spring-Boot</description>
   <url>https://github.com/ainilili/defender</url>
