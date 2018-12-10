@@ -1,21 +1,21 @@
-## Defender和Guarder
-对于``defender``的定义，我们将之抽象为一个城堡守卫阵法，如果要守护城堡，并不可少需要守护者的参与，而``guarder``就是所谓的守护者。
+## Defender & Guarder
+As for defender's definition, we abstract it into a castle guard formation. If you want to guard the castle, you need the guarder's participation, and guarder is the so-called guarder.
 
-一个服务之中只会有一个``defender``，与之息息相关的``guarder``会和``defender``形成``MANY-TO-ONE``的关系，每个``guarder``都可以指定不同的模式和策略去抵御或者说是过滤访客和外敌，对于多个``guarder``同时运作，他们之间将会相互合作，为服务的安全性一起努力工作！
+There is only ONE defender in a service, and guarder closely related TO guarder will form a many-to-one relationship with defender. Each guarder can specify different modes and strategies TO resist or filter visitors and foreign enemies. For multiple guarder running at the same time, they will cooperate with each other and work hard for the security of the service!
 #### Defender
-``defender``为一个单例对象，我们可以通过以下方式获取它
+Defender is a singleton, and we can get it this way
 ```
 Defender.getInstance()
 ```
-``defender``更像是一个容器，它装载着我们定义的各种``guarder``来帮助我们进行权限管理，我们可以通过调用``registry``方法去注册一个``guarder``
+Defender is more like a container, which loads the guarder we define to help us manage permissions. We can register a guarder by calling the registry method
 ```
 Defender.getInstance()
         .registry(guarder)
         .ready()
 ```
-可以看出，在注册完``guarder``之后，我们调用了``ready``方法，这是必不可少的，这是我们通知``defender``一切准备就绪信号，一旦执行此方法，``defender``将会进行一起准备的初始化工作，此方法执行完之后，``defender``的一切准备工作告一段落！
+It can be seen that after registering guarder, we called the ready method, which is essential. This is the signal that we notify defender of all ready. Once this method is executed, defender will perform the initialization work of preparation together.
 #### Guarder
-获取一个Guarder很简单，它的构造被私有化，以来使初始化的过程更加优雅，下面是一个完整的``guarder``实例化过程
+Getting a Guarder is simple, its construction is privatized to make the initialization process more elegant, and the following is a complete instantiation of Guarder
 ```
 Guarder.builder(GuarderType.URI)
 		.pattern("POST /user")
@@ -24,17 +24,17 @@ Guarder.builder(GuarderType.URI)
 			return Result.pass();
 		})
 ```
-其中的``order``是可以缺省的，有了它你可以自定义多个``guarder``防御的顺序，最前面的可以称之为敢死队。在调用``builder``方法的时候，我们需要传入一个枚举值来表示采用的防御模式，这个之后我们将会详解。从此可以看出，获取一个``guarder``对象也是如此的简单。
+The order is the default, with which you can customize the order of multiple guarder defenses, the first of which can be called the death squads.When we call the builder method, we need to pass in an enumeration value to indicate the defensive pattern we're using, which we'll explore later.As you can see, getting a guarder object is just as easy.
 
-## Defender的几种防御模式
-``defender``提供三种防御模式，对于不同的防御模式配置风格不尽相同
- - 注解模式
- - Expression模式
- - URI(Ant风格)
+## Defender's several defense modes
+Defender offers three defender modes, with different styles for different defender modes
+ - Annotation model
+ - Expression Model
+ - URI(Ant Style)
 
-虽然与众不同，但是可以项目配合着使用，以下我们将会进一步深入了解每种模式
-#### 注解模式
-使用注解模式，我们需要实例化一个对应的``guarder``
+Although different, it can be used in conjunction with a project, and we'll take a closer look at each pattern below
+#### Annotation model
+Using the annotation pattern, we need to instantiate a corresponding guarder
 ```
 Guarder.builder(GuarderType.ANNOTATION)
 		.pattern("org.nico.trap.controller")
@@ -42,7 +42,7 @@ Guarder.builder(GuarderType.ANNOTATION)
 			return Result.pass();
 		})
 ```
-紧接着，我们还需要在需要防御的方法上添加``@Access``注解
+Next, we need to add @access annotations to the methods we need to defend
 ```
 @Access(AuthConst.LOGIN)
 @PostMapping("/")
@@ -51,9 +51,9 @@ public ResponseVo<GameFullVo> publishGame(@RequestBody GamePublishVo gameVo) thr
 	return new ResponseVo<GameFullVo>(ResponseCode.SUCCESS, gameFullVo);
 }
 ```
-``@Access``注解内传入的value值可以根据当前系统的情况单独定义一个常量，``defender``并没有做强定义！对于每种模式下的``pattern``的格式不同，对于注解模式，``pattern``的意义就是代表着包名，对于该包下的所有带有``@Access``都将会进行防御。
-#### Expression模式
-表达式模式相比注解模式，粒度变得更大，但是通用性也会变大，我们可以通过一下方式获得一个Expression模式的``guarder``
+The value value passed in the @access annotation can be defined as a single constant based on the current system condition, defender did not make the strong definition!The format of pattern under each mode is different. For the annotation mode, the meaning of pattern is to represent the package name, and all the patterns with @access under this package will be protected.
+#### Expression Model
+The Expression pattern is more granular than the annotation pattern, but it is also more general. We can obtain the guarder of an Expression pattern by the following methods
 ```
 Guarder.builder(GuarderType.EXPRESSION)
     	.pattern("* org.nico.trap.controller.UserController.*(..)")
@@ -61,9 +61,9 @@ Guarder.builder(GuarderType.EXPRESSION)
     		return Result.pass();
     	})
 ```
-与注解模式不同的是，``pattern``的格式和所代表的的含义变化很大，这里表示一个``execution表达式``。
-#### URI(Ant风格)
-URI模式则更为直观
+n contrast to the annotation pattern, the format and meaning of the pattern vary widely, and an execution expression is represented here.
+#### URI(Ant Style)
+URI pattern are more intuitive
 ```
 Guarder.builder(GuarderType.URI)
 		.pattern("POST /user")
@@ -71,13 +71,13 @@ Guarder.builder(GuarderType.URI)
 			return Result.pass();
 		})
 ```
-``pattern``中分两段，第一段为请求类型，后一段为请求资源地址，匹配方式使用``ANT``风格，整体与Expression模式类似，不同的是，Expression模式拦截的是方法，URI模式拦截的是接口。
-## Guarder详解
-之前的讲述中，我们知道了``defender``和``guarder``的联系和作用，也知道了``guarder``的各种防御模式，下面我们将会对``guarder``进入更深层次的剖析，这样才能更好更灵活的使用``guarder``。
-#### Guarder的builder方法
-该方法需要传入一个枚举值``GuarderType``去区分``guarder``的防御模式，返回值将会是一个``guarder``对象，也是唯一实例化的入口！
-#### Guarder的pattern方法
-``pattern``的含义随着防御模式的不同而变化着，对于同一个``guarder``，可以有多个``pattern``，如在URI模式下可以写成
+The first paragraph is the request type, and the second paragraph is the address of the requested resource. ANT style is used to match. Expression mode is similar to Expression mode in general.
+## Guarder explain in detail 
+In the previous discussion, we know the connection and role of defender and guarder, as well as the various defense modes of guarder. Now we will enter into a deeper analysis of guarder, so as to make better and more flexible use of guarder.
+#### Guarder's builder method
+This method needs to pass in an enumerated value GuarderType to distinguish guarder's guard mode, and the return value will be a guarder object and the only instantiated entry!
+#### Guarder's pattern method
+The meaning of pattern varies with different defense patterns. For the same guarder, there can be multiple patterns, such as URI pattern
 ```
 Guarder.builder(GuarderType.URI)
 		.pattern("POST /user")
@@ -87,16 +87,16 @@ Guarder.builder(GuarderType.URI)
 			return Result.pass();
 		})
 ```
-#### Guarder的order方法
-``order``方法指定一个``int``值表示``defender``下所有``guarder``的防御顺序，``order``值越小优先级越高，可缺省，默认值为0。
-#### Guarder的preventer方法
-该方法传入一个``AbstractPreventer``接口对象，我们需要实现该接口内部的``detection``方法去自定义防御规则
+#### Guarder's order method
+The order method specifies an int value indicating the defense order of all guarder under defender. The smaller the order value is, the higher the priority is. The default value is 0.
+#### Methods the Guarder preventer
+he method is introduced into a AbstractPreventer interface object, we need to implement the interface internal detection method to custom rules
 ```
 public interface AbstractPreventer {
 	public Result detection(Caller caller);
 }
 ```
-接下来我们拟定一个场景：需要获取请求头里的``token``来判断用户是否是在登录状态下的防御，这里我们使用注解模式进行防御来构造一个``guarder``对象
+Next, let's consider a scenario where we need to get token in the request header to determine whether the user is protected against login, and we use annotation mode to construct a guarder object
 ```
 Guarder.builder(GuarderType.ANNOTATION)
 		.pattern("org.nico.trap.controller")
@@ -124,7 +124,7 @@ Guarder.builder(GuarderType.ANNOTATION)
 			}
 		})
 ```
-上述的``AbstractPreventer``实现类中，我们用到了``@Autowired``，这是``defender``必须支持的功能，而对于简单的防御，我们可以使用``lambda``更加简洁的实现，如判断请求头``token``是否存在
+The above AbstractPreventer implementation class, we use the @autowired, this is the function of the defender must support, for the simple defense, we can use the lambda more concise implementation, such as the token request head exists
 ```
 Guarder.builder(GuarderType.ANNOTATION)
 		.pattern("org.nico.trap.controller")
@@ -134,8 +134,8 @@ Guarder.builder(GuarderType.ANNOTATION)
 					: Result.pass();
 		})
 ```
-从上述例子可以看出，``defender``方法的返回值分两种类型：``pass``和``notpass``，通过``Result``的静态方法获取对应的实例
- - ``Result.notpass(Object o)`` 表示未穿破防御，这个请求时非法的，传入的参数``o``代表返回给请求者的提示信息。
- - ``Result.pass()`` 表示合法请求
+As can be seen from the above example, defender's method returns two types: pass and notpass, and the corresponding instance is obtained through the static method of Result
+ - ``Result.notpass(Object o)`` indicates that the defense is not breached. This request is illegal. The passed parameter o represents the prompt message returned to the requester.
+ - ``Result.pass()`` represents a legitimate request
 
 
