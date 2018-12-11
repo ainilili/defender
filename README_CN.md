@@ -40,3 +40,6 @@ public class DefenderTestConfig {
 ## 进阶
  - [中文文档](https://github.com/ainilili/defender/blob/master/DOC_CN.md)
  - [English Document](https://github.com/ainilili/defender/blob/master/DOC_EN.md)
+ 
+## 贡献
+ - [如何贡献](https://github.com/ainilili/defender/blob/master/CONTRIBUTING.md)
