@@ -1,7 +1,7 @@
 # Defender
 
 [![Build Status](https://travis-ci.org/ainilili/defender.svg?branch=master)](https://travis-ci.org/ainilili/defender.svg?branch=master)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.smallnico/ourbatis/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.smallnico/defender)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.smallnico/defender/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.smallnico/defender)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 Defender is a lightweight, flexible, and highly available permission framework that fully embraces spring-boot.If we need to make it easier to add permission management to the service on a daily basis, Defender is the Defender!
@@ -17,7 +17,7 @@ Defender is easy to deploy in two steps, make sure your service USES the spring-
 <dependency>
 	<groupId>com.smallnico</groupId>
 	<artifactId>defender</artifactId>
-	<version>##last-version</version>
+	<version>1.1.0</version>
 </dependency>
 ```
 #### Configuration
