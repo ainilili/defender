@@ -17,7 +17,7 @@ Defender is easy to deploy in two steps, make sure your service USES the spring-
 <dependency>
 	<groupId>com.smallnico</groupId>
 	<artifactId>defender</artifactId>
-	<version>1.1.0</version>
+	<version>${defender.version}</version>
 </dependency>
 ```
 #### Configuration
