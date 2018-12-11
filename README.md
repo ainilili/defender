@@ -1,4 +1,9 @@
 # Defender
+
+[![Coverage Status](https://coveralls.io/repos/github/ainilili/defender/badge.svg?branch=master)](https://coveralls.io/github/ainilili/defender?branch=master)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.smallnico/defender/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.smallnico/defender/)
+[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+
 Defender is a lightweight, flexible, and highly available permission framework that fully embraces spring-boot.If we need to make it easier to add permission management to the service on a daily basis, Defender is the Defender!
 
 ![](https://github.com/ainilili/defender/blob/master/PROCESS.jpg)
