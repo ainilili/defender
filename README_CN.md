@@ -17,7 +17,7 @@
 <dependency>
 	<groupId>com.smallnico</groupId>
 	<artifactId>defender</artifactId>
-	<version>1.1.0</version>
+	<version>${defender.version}</version>
 </dependency>
 ```
 #### 配置
