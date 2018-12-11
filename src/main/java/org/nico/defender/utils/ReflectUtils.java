@@ -36,7 +36,7 @@ public class ReflectUtils {
 		}
 		if(field != null) {
 			field.setAccessible(true);
-			Map<String, Object> memberValues;
+			Map<String, Object> memberValues = null;
 			try {
 				memberValues = (Map<String, Object>) field.get(invocationHandler);
 				memberValues.put(name, obj);
