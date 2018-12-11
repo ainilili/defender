@@ -31,7 +31,8 @@ public class DefenderTestConfig {
 				.registry(Guarder.builder(GuarderType.URI)
 						.pattern("POST /user")
 						.preventer(caller -> {
-							return Result.pass();
+							return caller.getRequest().getHeader("token") == null 
+								? Result.pass() : Result.notpass("error");
 						}))
 				.ready();
 	}
