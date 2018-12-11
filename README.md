@@ -1,7 +1,6 @@
 # Defender
 
 [![Build Status](https://travis-ci.org/ainilili/defender.svg?branch=master)](https://travis-ci.org/ainilili/defender.svg?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/ainilili/defender/badge.svg?branch=master)](https://coveralls.io/github/ainilili/defender?branch=master)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.smallnico/defender/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.smallnico/defender/)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
