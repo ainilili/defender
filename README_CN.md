@@ -4,7 +4,7 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.smallnico/defender/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.smallnico/defender/)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
-``defender``是一款全面拥抱``spring-boot``的轻量级，高灵活，高可用的权限框架。如果日常中我们需要更加便捷的对服务增加权限管理，那么``Defender``正合适！
+``defender``是一款全面拥抱``spring-boot``的轻量级，高灵活，高可用的权限框架。如果日常中我们需要更加便捷的对服务增加权限管理，那么``defender``正合适！
 
 ![](https://github.com/ainilili/defender/blob/master/PROCESS.jpg)
 
