@@ -41,5 +41,5 @@ public class DefenderTestConfig {
  - [中文文档](https://github.com/ainilili/defender/blob/master/DOC_CN.md)
  - [English Document](https://github.com/ainilili/defender/blob/master/DOC_EN.md)
 
-## CONTRIBUTING
+## Contributing
  - [How to Contribute](https://github.com/ainilili/defender/blob/master/CONTRIBUTING.md)
