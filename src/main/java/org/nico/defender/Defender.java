@@ -23,7 +23,7 @@ public class Defender {
 
 	private DefenderIntercepter intercepter;
 
-	private static Defender instance;
+	private volatile static Defender instance;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Defender.class);
 
