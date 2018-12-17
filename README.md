@@ -17,7 +17,7 @@ Defender is easy to deploy in two steps, make sure your service USES the spring-
 <dependency>
 	<groupId>com.smallnico</groupId>
 	<artifactId>defender</artifactId>
-	<version>1.1.0</version>
+	<version>${defender.version}</version>
 </dependency>
 ```
 #### Configuration
@@ -31,7 +31,8 @@ public class DefenderTestConfig {
 				.registry(Guarder.builder(GuarderType.URI)
 						.pattern("POST /user")
 						.preventer(caller -> {
-							return Result.pass();
+							return caller.getRequest().getHeader("token") == null 
+								? Result.pass() : Result.notpass("error");
 						}))
 				.ready();
 	}
