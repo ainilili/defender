@@ -13,7 +13,7 @@
 ## 快速开始
 只需两步即可轻松部署``defender``，在使用之前，请确保您的服务使用的是``spring-Boot``技术栈，并且需要引入``spring-boot-starter-aop``和``spring-boot-starter-web``模块。
 #### 依赖
-```
+```xml
 <dependency>
 	<groupId>com.smallnico</groupId>
 	<artifactId>defender</artifactId>
@@ -21,26 +21,24 @@
 </dependency>
 ```
 #### 配置
-```
-@Configuration
-@EnableDefender("* org.nico.trap.controller..*.*(..)")
-public class DefenderTestConfig {
-	@Bean
-	public Defender init(){
-		return Defender.getInstance()
-				.registry(Guarder.builder(GuarderType.URI)
-						.pattern("POST /user")
-						.preventer(caller -> {
-							return caller.getRequest().getHeader("token") == null 
-								? Result.pass() : Result.notpass("error");
-						}))
-				.ready();
-	}
-}
+```java
+    @Configuration
+    @EnableDefender("* org.nico.trap.controller..*.*(..)")
+    public static class DefenderTestConfig {
+        @Bean
+        public Defender init() {
+            return Defender.getInstance()
+                    .registry(Guarder.builder(GuarderType.URI)
+                            .pattern("POST /user")
+                            .preventer(caller -> caller.getRequest().getHeader("token") == null
+                                    ? Result.pass() : Result.notpass("error")))
+                    .ready();
+        }
+    }
 ```
 ## 进阶
  - [中文文档](https://github.com/ainilili/defender/blob/master/DOC_CN.md)
  - [English Document](https://github.com/ainilili/defender/blob/master/DOC_EN.md)
- 
+
 ## 贡献
  - [如何贡献](https://github.com/ainilili/defender/blob/master/CONTRIBUTING.md)
