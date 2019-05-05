@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import org.nico.defender.guarder.AbstractPreventer;
 import org.nico.defender.guarder.Caller;
@@ -26,6 +30,10 @@ public class Defender {
 	private volatile static Defender instance;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Defender.class);
+	
+	private Consumer<Caller> beforeFunction;
+	private Consumer<Caller> afterFunction;
+	private BiConsumer<Caller, Throwable> errorFunction;
 
 	protected Defender() {
 		this.guarders = new ArrayList<>(20);
@@ -90,5 +98,35 @@ public class Defender {
 	public Result intercept(Caller caller) {
 		return intercepter.intercept(caller);
 	}
-
+	
+	public Defender setBefore(Consumer<Caller> callback) {
+	    this.beforeFunction = callback;
+	    return this;
+	}
+	
+	public Defender setAfter(Consumer<Caller> callback) {
+        this.afterFunction = callback;
+        return this;
+    }
+	
+	public Defender setError(BiConsumer<Caller, Throwable> callback) {
+        this.errorFunction = callback;
+        return this;
+    }
+	
+	public void before(Caller caller) {
+	    if(beforeFunction != null) {
+	        beforeFunction.accept(caller);
+	    }
+	}
+	public void after(Caller caller) {
+	    if(afterFunction != null) {
+	        afterFunction.accept(caller);
+        }
+	}
+	public void error(Caller caller, Throwable e) {
+	    if(errorFunction != null) {
+	        errorFunction.accept(caller, e);
+        }
+	}
 }

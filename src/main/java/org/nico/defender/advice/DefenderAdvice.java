@@ -41,7 +41,16 @@ public class DefenderAdvice {
 		long end = System.nanoTime();
 		LOGGER.debug("Defended " + caller.getTargetMethod().getName() + " takes " + (end - start)/1000000 + "MS, result " + (access ? "[SUCCESS]" : "[FAILURE]"));
 		if(access) {
-			return point.proceed();
+		    Object r = null;
+		    try {
+		        defender.before(caller);
+		        r = point.proceed();
+		    }catch (Throwable e) {
+		        defender.error(caller, e);
+		    }finally {
+		        defender.after(caller);
+		    }
+			return r;
 		}else {
 			return intercepter.getError();
 		}
