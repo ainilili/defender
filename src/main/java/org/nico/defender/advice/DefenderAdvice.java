@@ -43,12 +43,12 @@ public class DefenderAdvice {
 		if(access) {
 		    Object r = null;
 		    try {
-		        defender.before(caller);
+		        defender.doBefore(caller);
 		        r = point.proceed();
 		    }catch (Throwable e) {
-		        defender.error(caller, e);
+		        defender.doError(caller, e);
 		    }finally {
-		        defender.after(caller);
+		        defender.doAfter(caller);
 		    }
 			return r;
 		}else {

@@ -99,32 +99,32 @@ public class Defender {
 		return intercepter.intercept(caller);
 	}
 	
-	public Defender setBefore(Consumer<Caller> callback) {
+	public Defender before(Consumer<Caller> callback) {
 	    this.beforeFunction = callback;
 	    return this;
 	}
 	
-	public Defender setAfter(Consumer<Caller> callback) {
+	public Defender after(Consumer<Caller> callback) {
         this.afterFunction = callback;
         return this;
     }
 	
-	public Defender setError(BiConsumer<Caller, Throwable> callback) {
+	public Defender error(BiConsumer<Caller, Throwable> callback) {
         this.errorFunction = callback;
         return this;
     }
 	
-	public void before(Caller caller) {
+	public void doBefore(Caller caller) {
 	    if(beforeFunction != null) {
 	        beforeFunction.accept(caller);
 	    }
 	}
-	public void after(Caller caller) {
+	public void doAfter(Caller caller) {
 	    if(afterFunction != null) {
 	        afterFunction.accept(caller);
         }
 	}
-	public void error(Caller caller, Throwable e) {
+	public void doError(Caller caller, Throwable e) {
 	    if(errorFunction != null) {
 	        errorFunction.accept(caller, e);
         }
