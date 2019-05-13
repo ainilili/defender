@@ -47,6 +47,7 @@ public class DefenderAdvice {
 		        r = point.proceed();
 		    }catch (Throwable e) {
 		        defender.doError(caller, e);
+		        throw e;
 		    }finally {
 		        defender.doAfter(caller);
 		    }
